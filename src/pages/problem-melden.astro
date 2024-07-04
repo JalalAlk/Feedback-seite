@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Problem Melden">
+  <main>
+    <h1>Problem Melden</h1>
+    <form id="problem-form" class="problem-form">
+      <textarea id="problem-message" name="problem-message" rows="5" placeholder="Beschreibe dein Problem" required></textarea>
+      <button type="submit">Problem Melden</button>
+    </form>
+  </main>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('problem-form') as HTMLFormElement;
+    const problemMessageField = document.getElementById('problem-message') as HTMLTextAreaElement;
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const problemMessage = problemMessageField.value;
+
+      let messages: { id: number, type: string, message: string, username: string, replies: any[] }[] = JSON.parse(localStorage.getItem('messages') || '[]');
+
+      messages.push({
+        id: Date.now(),
+        type: 'Problem melden',
+        message: problemMessage,
+        username: 'Benutzer',
+        replies: []
+      });
+
+      localStorage.setItem('messages', JSON.stringify(messages));
+      alert('Danke für die Meldung des Problems!');
+      form.reset();
+    });
+  });
+</script>
+
+<style>
+  main {
+    margin: auto;
+    padding: 2rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    color: white;
+    font-size: 22px;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .problem-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  textarea {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #1e1e1e;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+  }
+
+  button {
+    padding: 0.75rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  button:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+  }
+</style>

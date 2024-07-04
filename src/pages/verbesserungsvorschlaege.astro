@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Verbesserungsvorschläge">
+  <main>
+    <h1>Verbesserungsvorschläge Abgeben</h1>
+    <form id="verbesserungsvorschlaege-form" method="post">
+      <label for="verbesserungsvorschlag-message">Deine Verbesserungsvorschläge:</label>
+      <textarea id="verbesserungsvorschlag-message" name="verbesserungsvorschlag-message" rows="4" required></textarea>
+      <label>
+        <input type="radio" name="verbesserungsvorschlag-anonym" value="anonym" checked /> Anonym
+      </label>
+      <label>
+        <input type="radio" name="verbesserungsvorschlag-anonym" value="benutzername" /> Benutzername
+      </label>
+      <input type="text" id="username" name="username" placeholder="Dein Name (falls nicht anonym)" />
+      <button type="submit">Absenden</button>
+    </form>
+  </main>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('verbesserungsvorschlaege-form') as HTMLFormElement;
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Type-Casting für Textarea und Input
+      const message = (document.getElementById('verbesserungsvorschlag-message') as HTMLTextAreaElement).value;
+      const anonym = (form.querySelector('input[name="verbesserungsvorschlag-anonym"]:checked') as HTMLInputElement).value;
+      const username = (form.querySelector('#username') as HTMLInputElement).value;
+
+      const vorschlag = {
+        id: Date.now(),
+        type: 'Verbesserungsvorschlag',
+        message: message,
+        username: anonym === 'anonym' ? 'Anonym' : username,
+        replies: []
+      };
+
+      let messages = JSON.parse(localStorage.getItem('messages') || '[]');
+      messages.push(vorschlag);
+      localStorage.setItem('messages', JSON.stringify(messages));
+      alert('Verbesserungsvorschlag gesendet!');
+      form.reset();  // Hier ist `reset` für `HTMLFormElement` verfügbar
+    });
+  });
+</script>
+
+<style>
+  main {
+    margin: auto;
+    padding: 2rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    color: white;
+    font-size: 22px;
+    line-height: 1.6;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  textarea {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #1e1e1e;
+    color: white;
+    width: 100%;
+  }
+
+  input[type="text"] {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #1e1e1e;
+    color: white;
+    width: 100%;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  button {
+    padding: 0.75rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  button:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+  }
+</style>
