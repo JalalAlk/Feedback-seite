@@ -1,4 +1,29 @@
-<!DOCTYPE html><html lang="de"> <head><meta charset="UTF-8"><meta name="description" content="Feedbacksystem HTW Saar"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v4.11.3"><title>Problem Melden</title><style>:root{--accent: 136, 58, 234;--accent-light: 224, 204, 250;--accent-dark: 49, 10, 101;--accent-gradient: linear-gradient( 45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60% )}html{font-family:system-ui,sans-serif;background:#13151a;background-size:224px}code{font-family:Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}
-main[data-astro-cid-6yp2h2xe]{margin:auto;padding:2rem;width:800px;max-width:calc(100% - 2rem);color:#fff;font-size:22px;line-height:1.6;text-align:center}.problem-form[data-astro-cid-6yp2h2xe]{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}textarea[data-astro-cid-6yp2h2xe]{padding:.5rem;border-radius:8px;border:1px solid #555;background:#1e1e1e;color:#fff;width:100%;box-sizing:border-box;resize:none}button[data-astro-cid-6yp2h2xe]{padding:.75rem;background:var(--accent-gradient);color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .3s ease,transform .3s ease}button[data-astro-cid-6yp2h2xe]:hover{background:var(--accent-dark);transform:translateY(-2px)}
-</style><script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("problem-form"),t=document.getElementById("problem-message");e.addEventListener("submit",m=>{m.preventDefault();const n=t.value;let s=JSON.parse(localStorage.getItem("messages")||"[]");s.push({id:Date.now(),type:"Problem melden",message:n,username:"Benutzer",replies:[]}),localStorage.setItem("messages",JSON.stringify(s)),alert("Danke für die Meldung des Problems!"),e.reset()})});
-</script></head> <body>  <main data-astro-cid-6yp2h2xe> <h1 data-astro-cid-6yp2h2xe>Problem Melden</h1> <form id="problem-form" class="problem-form" data-astro-cid-6yp2h2xe> <textarea id="problem-message" name="problem-message" rows="5" placeholder="Beschreibe dein Problem" required data-astro-cid-6yp2h2xe></textarea> <button type="submit" data-astro-cid-6yp2h2xe>Problem Melden</button> </form> </main>  </body></html>  
+<!DOCTYPE html><html lang="de" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description"><title>Problem Melden</title><style>body{font-family:Arial,sans-serif;background:#222;color:#ddd;margin:0;padding:0}header[data-astro-cid-sckkx6r4]{background:#333;padding:1rem;color:#fff;text-align:center}header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4]{margin:0;font-size:24px}header[data-astro-cid-sckkx6r4] nav[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]{color:#fff;text-decoration:none;margin:0 .5rem}header[data-astro-cid-sckkx6r4] nav[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]:hover{text-decoration:underline}footer[data-astro-cid-sckkx6r4]{background:#333;color:#fff;padding:.5rem;text-align:center;position:fixed;bottom:0;width:100%}main[data-astro-cid-sckkx6r4]{margin:auto;padding:2rem;max-width:800px;background:#333;border-radius:10px}
+main[data-astro-cid-6yp2h2xe]{margin:auto;padding:2rem;width:100%;max-width:600px;background:#333;border-radius:10px;color:#fff;text-align:center}h1[data-astro-cid-6yp2h2xe]{margin-bottom:1rem;font-size:28px}form[data-astro-cid-6yp2h2xe]{display:flex;flex-direction:column;gap:1rem}textarea[data-astro-cid-6yp2h2xe]{padding:.5rem;border-radius:8px;border:1px solid #555;background:#222;color:#fff}button[data-astro-cid-6yp2h2xe]{padding:.75rem;background:linear-gradient(to right,#f06,#aaf);color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .3s ease,transform .3s ease}button[data-astro-cid-6yp2h2xe]:hover{background:#c05;transform:translateY(-2px)}
+</style></head> <body data-astro-cid-sckkx6r4> <header data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4>Feedback-System</h1> <nav data-astro-cid-sckkx6r4> <a href="/startseite" data-astro-cid-sckkx6r4>Startseite</a> </nav> </header> <main data-astro-cid-sckkx6r4>  <main data-astro-cid-6yp2h2xe> <h1 data-astro-cid-6yp2h2xe>Problem melden</h1> <form id="problem-form" data-astro-cid-6yp2h2xe> <label for="problem-message" data-astro-cid-6yp2h2xe>Beschreiben Sie das Problem:</label> <textarea id="problem-message" rows="5" placeholder="Beschreiben Sie das Problem" required data-astro-cid-6yp2h2xe></textarea> <label for="problem-identity" data-astro-cid-6yp2h2xe> <input type="checkbox" id="problem-identity" data-astro-cid-6yp2h2xe>
+Als Benutzer identifizieren
+</label> <button type="submit" data-astro-cid-6yp2h2xe>Problem melden</button> </form> </main>  </main> <footer data-astro-cid-sckkx6r4></footer> </body></html> <script type="module">
+  document.addEventListener('DOMContentLoaded', () => {
+    const problemForm = document.getElementById('problem-form');
+    const problemMessageInput = document.getElementById('problem-message');
+    const problemIdentityCheckbox = document.getElementById('problem-identity');
+
+    problemForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = problemMessageInput.value;
+      const isIdentified = problemIdentityCheckbox.checked;
+
+      let username = isIdentified ? prompt('Bitte geben Sie Ihren Benutzernamen ein:') : 'Anonym';
+      if (isIdentified && !username) {
+        alert('Bitte geben Sie einen Benutzernamen ein.');
+        return;
+      }
+
+      let problemMessages = JSON.parse(localStorage.getItem('messages') || '[]');
+      problemMessages.push({ id: Date.now(), type: 'Problem', message, username, replies: [] });
+      localStorage.setItem('messages', JSON.stringify(problemMessages));
+      problemMessageInput.value = '';
+      alert('Problem gemeldet!');
+    });
+  });
+</script> 
