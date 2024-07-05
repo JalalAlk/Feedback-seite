@@ -2,175 +2,191 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Antworten Anzeigen">
+<Layout title="Antworten anzeigen">
   <main>
-    <h1>Antworten Anzeigen</h1>
-    <div class="filter-container">
-      <button class="filter-button" data-filter="">Alle</button>
-      <button class="filter-button" data-filter="Feedback">Feedback</button>
-      <button class="filter-button" data-filter="Problem melden">Problem Melden</button>
-      <button class="filter-button" data-filter="Verbesserungsvorschlag">Verbesserungsvorschlag</button>
-      <button class="filter-button" data-filter="Bewertung">Bewertung</button>
+    <div class="button-container">
+      <button class="filter-button" data-type="Feedback">Feedback anzeigen</button>
+      <button class="filter-button" data-type="Problem">Problem anzeigen</button>
+      <button class="filter-button" data-type="Verbesserungsvorschlag">Verbesserungsvorschläge anzeigen</button>
+      <button class="filter-button" data-type="Bewertung">Bewertungen anzeigen</button>
     </div>
-    <div id="messages-container" class="messages-container"></div>
+    <div id="responses"></div>
   </main>
 </Layout>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const messagesContainer = document.getElementById('messages-container') as HTMLDivElement;
-    const filterButtons = document.querySelectorAll('.filter-button') as NodeListOf<HTMLButtonElement>;
-    let messages: { id: number, type: string, message: string, username: string, replies: { message: string, username: string }[] }[] = JSON.parse(localStorage.getItem('messages') || '[]');
-
-    function renderMessages(filter = '') {
-      messagesContainer.innerHTML = '';
-      messages.filter(message => !filter || message.type === filter).forEach(message => {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message');
-        messageElement.innerHTML = `
-          <div class="message-content">
-            <p><strong>${message.type}</strong></p>
-            <p>${message.message}</p>
-            <p><em>Von: ${message.username}</em></p>
-          </div>
-          <div class="replies-container">
-            ${message.replies.map(reply => `
-              <div class="reply">
-                <p><strong>Antwort:</strong> ${reply.message}</p>
-                <p><em>Von: ${reply.username}</em></p>
-              </div>
-            `).join('')}
-            <form class="reply-form" data-id="${message.id}">
-              <label for="reply-message-${message.id}">Antwort:</label>
-              <textarea id="reply-message-${message.id}" rows="3" required></textarea>
-              <button type="submit">Antwort hinzufügen</button>
-            </form>
-          </div>
-        `;
-        messagesContainer.appendChild(messageElement);
-      });
-    }
-
-    renderMessages();
+  document.addEventListener('DOMContentLoaded', function() {
+    const responsesContainer = document.getElementById('responses');
+    const filterButtons = document.querySelectorAll('.filter-button');
+    let messages = JSON.parse(localStorage.getItem('messages')) || [];
 
     filterButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter') || '';
-        renderMessages(filter);
+        const type = button.getAttribute('data-type');
+        displayMessages(type);
       });
     });
 
-    messagesContainer.addEventListener('submit', (event) => {
-      const form = event.target as HTMLFormElement;
+    function displayMessages(type) {
+      responsesContainer.innerHTML = '';
+      const filteredMessages = messages.filter(msg => msg.type === type);
 
-      if (form && form.matches('.reply-form')) {
-        event.preventDefault();
-        const messageId = form.getAttribute('data-id') as string;
-        const replyMessage = (form.querySelector('textarea') as HTMLTextAreaElement).value;
+      if (filteredMessages.length === 0) {
+        responsesContainer.innerHTML = '<p>Keine Nachrichten vorhanden.</p>';
+      } else {
+        filteredMessages.forEach((msg, index) => {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message';
+          
+          const messageType = document.createElement('h2');
+          messageType.textContent = msg.type;
+          messageDiv.appendChild(messageType);
 
-        const reply = {
-          message: replyMessage,
-          username: 'Admin'
-        };
+          const messageContent = document.createElement('p');
+          messageContent.textContent = msg.message;
+          messageDiv.appendChild(messageContent);
 
-        messages = messages.map(message => {
-          if (message.id === parseInt(messageId)) {
-            message.replies.push(reply);
+          const messageUser = document.createElement('span');
+          messageUser.textContent = `Von: ${msg.username}`;
+          messageDiv.appendChild(messageUser);
+
+          if (msg.replies && msg.replies.length > 0) {
+            const repliesDiv = document.createElement('div');
+            repliesDiv.className = 'replies';
+            msg.replies.forEach(reply => {
+              const replyDiv = document.createElement('div');
+              replyDiv.className = 'reply';
+              replyDiv.textContent = reply;
+              repliesDiv.appendChild(replyDiv);
+            });
+            messageDiv.appendChild(repliesDiv);
           }
-          return message;
-        });
 
-        localStorage.setItem('messages', JSON.stringify(messages));
-        renderMessages();
+          const replyButton = document.createElement('button');
+          replyButton.textContent = 'Antworten';
+          replyButton.onclick = function() {
+            const reply = prompt('Ihre Antwort:');
+            if (reply) {
+              if (!msg.replies) {
+                msg.replies = [];
+              }
+              msg.replies.push(reply);
+              localStorage.setItem('messages', JSON.stringify(messages));
+              displayMessages(type);
+              alert('Antwort wurde gespeichert!');
+            }
+          };
+          messageDiv.appendChild(replyButton);
+
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Löschen';
+          deleteButton.onclick = function() {
+            if (confirm('Sind Sie sicher, dass Sie diese Nachricht löschen möchten?')) {
+              messages = messages.filter(m => m !== msg); // Nachricht aus dem Array entfernen
+              localStorage.setItem('messages', JSON.stringify(messages)); // Array speichern
+              displayMessages(type); // Seite aktualisieren
+              alert('Nachricht wurde gelöscht!');
+            }
+          };
+          messageDiv.appendChild(deleteButton);
+
+          responsesContainer.appendChild(messageDiv);
+        });
       }
-    });
+    }
   });
 </script>
 
 <style>
   main {
     margin: auto;
-    padding: 2rem;
+    padding: 1rem;
     width: 800px;
     max-width: calc(100% - 2rem);
     color: white;
-    font-size: 22px;
+    font-size: 20px;
     line-height: 1.6;
   }
 
-  .filter-container {
+  .button-container {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    justify-content: center;
+    justify-content: space-around;
+    margin-bottom: 1rem;
   }
 
   .filter-button {
-    padding: 0.75rem 1.5rem;
+    padding: 1rem;
     background: var(--accent-gradient);
     color: white;
     border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    border-radius: 8px;
+    font-size: 1rem;
   }
 
   .filter-button:hover {
     background: var(--accent-dark);
-    transform: translateY(-2px);
-  }
-
-  .messages-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
   }
 
   .message {
-    background: #333;
+    border: 1px solid #ccc;
     padding: 1rem;
     border-radius: 8px;
+    margin-bottom: 1rem;
   }
 
-  .replies-container {
+  .message h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .message p {
+    margin: 0.5rem 0;
+  }
+
+  .message span {
+    display: block;
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+
+  .replies {
     margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #ccc;
   }
 
   .reply {
-    background: #444;
-    padding: 0.5rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
-
-  .reply-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #555;
-    background: #1e1e1e;
-    color: white;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
   }
 
   button {
-    padding: 0.75rem;
+    padding: 0.5rem;
     background: var(--accent-gradient);
     color: white;
     border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-top: 1rem;
   }
 
   button:hover {
     background: var(--accent-dark);
-    transform: translateY(-2px);
+  }
+
+  .delete-button {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-left: 10px; /* Abstand zum Antwort-Button */
+  }
+
+  .delete-button:hover {
+    background: #c0392b;
   }
 </style>

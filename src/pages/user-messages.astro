@@ -1,0 +1,120 @@
+---
+const { title, description } = Astro.props;
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="User Messages">
+  <main>
+    <h1>User Messages</h1>
+    <div id="messages"></div>
+  </main>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let messages = JSON.parse(localStorage.getItem('messages')) || [];
+    const messagesContainer = document.getElementById('messages');
+
+    function renderMessages() {
+      if (!messagesContainer) return; // Sicherheitsüberprüfung
+
+      messagesContainer.innerHTML = '';
+
+      messages.forEach((msg, index) => {
+        const messageEl = document.createElement('div');
+        messageEl.classList.add('message');
+        messageEl.innerHTML = `
+          <p><strong>${msg.username}:</strong> ${msg.message}</p>
+          <div class="replies">
+            ${msg.replies ? msg.replies.map(reply => `<div class="reply"><strong>${reply.username}:</strong> ${reply.message}</div>`).join('') : ''}
+          </div>
+          <button class="delete-button" data-index="${index}">Löschen</button>
+        `;
+
+        messagesContainer.appendChild(messageEl);
+      });
+    }
+
+    messagesContainer?.addEventListener('click', function(event) {
+      const target = event.target as HTMLElement;
+
+      if (target.classList.contains('reply-button')) {
+        const index = target.getAttribute('data-index');
+        if (index === null) return;
+
+        const username = prompt('Ihr Name:');
+        const message = prompt('Ihre Antwort:');
+
+        if (username && message) {
+          if (!messages[parseInt(index)].replies) {
+            messages[parseInt(index)].replies = [];
+          }
+          messages[parseInt(index)].replies.push({ username, message });
+          localStorage.setItem('messages', JSON.stringify(messages));
+          renderMessages();
+          alert('Antwort wurde gespeichert!');
+        }
+      }
+
+      if (target.classList.contains('delete-button')) {
+        const index = target.getAttribute('data-index');
+        if (index === null) return;
+
+        if (confirm('Sind Sie sicher, dass Sie diese Nachricht löschen möchten?')) {
+          messages.splice(parseInt(index), 1); // Nachricht aus dem Array entfernen
+          localStorage.setItem('messages', JSON.stringify(messages)); // Array speichern
+          renderMessages(); // Seite aktualisieren
+          alert('Nachricht wurde gelöscht!');
+        }
+      }
+    });
+
+    renderMessages();
+  });
+</script>
+
+<style>
+    main {
+      margin: auto;
+      padding: 1rem;
+      width: 800px;
+      max-width: calc(100% - 2rem);
+      color: white;
+      font-size: 20px;
+      line-height: 1.6;
+    }
+  
+    .message {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+      background: #333;
+    }
+  
+    .replies {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      border-left: 2px solid #ccc;
+    }
+  
+    .reply {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      background: #444;
+    }
+  
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+  
+    button:hover {
+      background: var(--accent-dark);
+    }
+  </style>

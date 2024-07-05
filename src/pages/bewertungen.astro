@@ -1,56 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-
 <Layout title="Bewertungen">
   <main>
-    <h1>Bewertungen Abgeben</h1>
-    <form id="bewertungen-form" method="post">
-      <label for="bewertung-message">Deine Bewertung:</label>
-      <textarea id="bewertung-message" name="bewertung-message" rows="4" required></textarea>
-      <label>Bewertung:</label>
-      <div class="stars">
-        <input type="radio" id="star5" name="rating" value="5" />
-        <label for="star5" class="star">&#9733;</label>
-        <input type="radio" id="star4" name="rating" value="4" />
-        <label for="star4" class="star">&#9733;</label>
-        <input type="radio" id="star3" name="rating" value="3" />
-        <label for="star3" class="star">&#9733;</label>
-        <input type="radio" id="star2" name="rating" value="2" />
-        <label for="star2" class="star">&#9733;</label>
-        <input type="radio" id="star1" name="rating" value="1" />
-        <label for="star1" class="star">&#9733;</label>
-      </div>
-      <button type="submit">Absenden</button>
+    <h1>Bewertungen</h1>
+    <form id="review-form">
+      <label for="review-message">Ihre Bewertung:</label>
+      <textarea id="review-message" rows="5" placeholder="Ihre Bewertung" required></textarea>
+      <label for="review-identity">
+        <input type="checkbox" id="review-identity" />
+        Als Benutzer identifizieren
+      </label>
+      <button type="submit">Bewertung abgeben</button>
     </form>
   </main>
 </Layout>
 
-<script>
+<script type="module">
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('bewertungen-form') as HTMLFormElement;
+    const reviewForm = document.getElementById('review-form');
+    const reviewMessageInput = document.getElementById('review-message');
+    const reviewIdentityCheckbox = document.getElementById('review-identity');
 
-    form.addEventListener('submit', (event) => {
+    reviewForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      const message = reviewMessageInput.value;
+      const isIdentified = reviewIdentityCheckbox.checked;
 
-      // Type-Casting für Textarea und Input
-      const message = (form.querySelector('#bewertung-message') as HTMLTextAreaElement).value;
-      const rating = (form.querySelector('input[name="rating"]:checked') as HTMLInputElement).value;
+      let username = isIdentified ? prompt('Bitte geben Sie Ihren Benutzernamen ein:') : 'Anonym';
+      if (isIdentified && !username) {
+        alert('Bitte geben Sie einen Benutzernamen ein.');
+        return;
+      }
 
-      const bewertung = {
-        id: Date.now(),
-        type: 'Bewertung',
-        message: message,
-        rating: parseInt(rating),
-        username: 'Anonym',
-        replies: []
-      };
-
-      let messages = JSON.parse(localStorage.getItem('messages') || '[]');
-      messages.push(bewertung);
-      localStorage.setItem('messages', JSON.stringify(messages));
-      alert('Bewertung gesendet!');
-      form.reset();  // Hier ist `reset` für `HTMLFormElement` verfügbar
+      let reviewMessages = JSON.parse(localStorage.getItem('messages') || '[]');
+      reviewMessages.push({ id: Date.now(), type: 'Bewertung', message, username, replies: [] });
+      localStorage.setItem('messages', JSON.stringify(reviewMessages));
+      reviewMessageInput.value = '';
+      alert('Bewertung abgegeben!');
     });
   });
 </script>
@@ -59,11 +46,17 @@ import Layout from '../layouts/Layout.astro';
   main {
     margin: auto;
     padding: 2rem;
-    width: 800px;
-    max-width: calc(100% - 2rem);
-    color: white;
-    font-size: 22px;
-    line-height: 1.6;
+    width: 100%;
+    max-width: 600px;
+    background: #333;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+    font-size: 28px;
   }
 
   form {
@@ -76,33 +69,13 @@ import Layout from '../layouts/Layout.astro';
     padding: 0.5rem;
     border-radius: 8px;
     border: 1px solid #555;
-    background: #1e1e1e;
-    color: white;
-    width: 100%;
-  }
-
-  .stars {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .stars input {
-    display: none;
-  }
-
-  .stars label {
-    font-size: 2rem;
-    color: #FFD700;
-    cursor: pointer;
-  }
-
-  .stars input:checked ~ label {
-    color: #FFBF00;
+    background: #222;
+    color: #fff;
   }
 
   button {
     padding: 0.75rem;
-    background: var(--accent-gradient);
+    background: linear-gradient(to right, #f06, #aaf);
     color: white;
     border: none;
     border-radius: 10px;
@@ -111,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   button:hover {
-    background: var(--accent-dark);
+    background: #c05;
     transform: translateY(-2px);
   }
 </style>
