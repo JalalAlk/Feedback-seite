@@ -1,6 +1,7 @@
 ---
 const { title, description } = Astro.props;
 ---
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -10,7 +11,6 @@ const { title, description } = Astro.props;
   <title>{title}</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background: #ded7d7;
       color: #ddd;
       margin: 0;
@@ -31,20 +31,19 @@ const { title, description } = Astro.props;
 
     header nav a {
       display: inline-block;
-    padding: 0.5rem 1rem;  /* Padding für Button-Größe */
-    color: #070606;
-    text-decoration: none;
-    margin: 0 0.5rem;
-    background: linear-gradient(to right, rgb(177 228 160), rgb(233 241 239));
-    border-radius: 8px;  /* Abgerundete Ecken */
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);  /* Leichter Schatten */
-    transition: background 0.3s ease, transform 0.3s ease;  /* Übergangseffekte */
+      color: #070606;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      background: linear-gradient(to right, rgb(228 189 160), rgb(233 241 239));
+      border-radius: 8px;  /* Abgerundete Ecken */
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);  /* Leichter Schatten */
+      transition: background 0.3s ease, transform 0.3s ease;  /* Übergangseffekte */
     }
 
     header nav a:hover {
-      background: linear-gradient(to right, rgb(145 190 130), rgb(200 208 205));  /* Dunklerer Hintergrund beim Hover */
-    text-decoration: none;  /* Keine Unterstreichung beim Hover */
-    transform: translateY(-2px);
+      background: linear-gradient(to right, rgb(190 130 140), rgb(200 208 205));  /* Dunklerer Hintergrund beim Hover */
+      text-decoration: none;  /* Keine Unterstreichung beim Hover */
+      transform: translateY(-2px);
     }
 
     footer {
@@ -58,12 +57,12 @@ const { title, description } = Astro.props;
     }
     
     main {
-      margin: auto;
       padding: 2rem;
       max-width: 2000px;
       background: #f7f7f7fd;
       border-radius: 10px;
     }
+    
   </style>
 </head>
 <body>
@@ -71,13 +70,11 @@ const { title, description } = Astro.props;
     <h1>Feedback-System</h1>
     <nav>
       <a href="/startseite">Startseite</a>
-  
     </nav>
   </header>
   <main>
     <slot />
   </main>
   <footer>
-  </footer>
 </body>
 </html>

@@ -2,10 +2,23 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Verbesserungsvorschläge">
+<Layout title="Verbesserungsvorschläge" description="Geben Sie hier Ihre Verbesserungsvorschläge für die Vorlesungen an der Hochschule ab.">
   <main>
-    <h1>Verbesserungsvorschläge</h1>
+    <h1>Verbesserungsvorschläge für Vorlesungen</h1>
     <form id="suggestion-form">
+      <!-- Auswahlfeld für die Kategorie -->
+      <label for="suggestion-category">Kategorie:</label>
+      <select id="suggestion-category" required>
+        <option value="" disabled selected>Bitte wählen Sie eine Kategorie</option>
+        <option value="Vorlesung">Vorlesung</option>
+        <option value="Seminar">Seminar</option>
+        <option value="Übung">Übung</option>
+        <option value="Sonstiges">Sonstiges</option>
+      </select>
+      <label for="suggestion-subcategory" id="suggestion-subcategory-label" style="display: none;">Unterkategorie:</label>
+      <select id="suggestion-subcategory" style="display: none;" required>
+        <!-- Optionen für Sub-Kategorien werden hier dynamisch hinzugefügt -->
+      </select>
       <label for="suggestion-message">Ihr Vorschlag:</label>
       <textarea id="suggestion-message" rows="5" placeholder="Ihr Verbesserungsvorschlag" required></textarea>
       <label for="suggestion-identity">
@@ -27,11 +40,57 @@ import Layout from '../layouts/Layout.astro';
 <script type="module">
   document.addEventListener('DOMContentLoaded', () => {
     const suggestionForm = document.getElementById('suggestion-form');
+    const suggestionCategorySelect = document.getElementById('suggestion-category');
+    const suggestionSubcategorySelect = document.getElementById('suggestion-subcategory');
+    const suggestionSubcategoryLabel = document.getElementById('suggestion-subcategory-label');
     const suggestionMessageInput = document.getElementById('suggestion-message');
     const suggestionIdentityCheckbox = document.getElementById('suggestion-identity');
+    const backButton = document.getElementById('back-button');
+
+    suggestionCategorySelect.addEventListener('change', () => {
+      const selectedCategory = suggestionCategorySelect.value;
+
+      if (selectedCategory === 'Vorlesung') {
+        suggestionSubcategoryLabel.style.display = 'block';
+        suggestionSubcategorySelect.style.display = 'block';
+        suggestionSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein Thema</option>
+          <option value="Vorlesungsthemen">Vorlesungsthemen</option>
+          <option value="Dozenten">Dozenten</option>
+          <option value="Vorlesungsunterlagen">Vorlesungsunterlagen</option>
+          <option value="Prüfungen">Prüfungen</option>
+        `;
+      } else if (selectedCategory === 'Seminar') {
+        suggestionSubcategoryLabel.style.display = 'block';
+        suggestionSubcategorySelect.style.display = 'block';
+        suggestionSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein Thema</option>
+          <option value="Seminarinhalte">Seminarinhalte</option>
+          <option value="Dozenten">Dozenten</option>
+          <option value="Seminarunterlagen">Seminarunterlagen</option>
+          <option value="Seminarorganisation">Seminarorganisation</option>
+        `;
+      } else if (selectedCategory === 'Übung') {
+        suggestionSubcategoryLabel.style.display = 'block';
+        suggestionSubcategorySelect.style.display = 'block';
+        suggestionSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein Thema</option>
+          <option value="Übungsaufgaben">Übungsaufgaben</option>
+          <option value="Übungsdurchführung">Übungsdurchführung</option>
+          <option value="Übungsfeedback">Übungsfeedback</option>
+          <option value="Übungsmaterialien">Übungsmaterialien</option>
+        `;
+      } else if (selectedCategory === 'Sonstiges') {
+        suggestionSubcategoryLabel.style.display = 'none';
+        suggestionSubcategorySelect.style.display = 'none';
+        suggestionSubcategorySelect.innerHTML = '';
+      }
+    });
 
     suggestionForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      const category = suggestionCategorySelect.value;
+      const subcategory = suggestionSubcategorySelect.value || '';
       const message = suggestionMessageInput.value;
       const isIdentified = suggestionIdentityCheckbox.checked;
 
@@ -41,15 +100,30 @@ import Layout from '../layouts/Layout.astro';
         return;
       }
 
+      let title = category;
+      if (category !== 'Sonstiges' && subcategory) {
+        title += `: ${subcategory}`;
+      }
+
       let suggestionMessages = JSON.parse(localStorage.getItem('messages') || '[]');
-      suggestionMessages.push({ id: Date.now(), type: 'Verbesserungsvorschlag', message, username, replies: [] });
+      suggestionMessages.push({
+        id: Date.now(),
+        type: 'Verbesserungsvorschlag',
+        title,
+        message,
+        username,
+        replies: []
+      });
       localStorage.setItem('messages', JSON.stringify(suggestionMessages));
       suggestionMessageInput.value = '';
+      suggestionCategorySelect.value = '';
+      suggestionSubcategorySelect.innerHTML = '';
+      suggestionSubcategoryLabel.style.display = 'none';
+      suggestionSubcategorySelect.style.display = 'none';
       alert('Vorschlag gesendet!');
     });
 
     // Zurück-Button Logik
-    const backButton = document.getElementById('back-button');
     backButton.addEventListener('click', () => {
       window.history.back();  // Gehe zur vorherigen Seite
     });
@@ -80,6 +154,7 @@ import Layout from '../layouts/Layout.astro';
     gap: 1rem;
   }
 
+  select,
   textarea {
     padding: 0.5rem;
     border-radius: 8px;

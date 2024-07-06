@@ -2,10 +2,26 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Bewertungen">
+<Layout title="Bewertungen" description="Geben Sie hier Ihre Bewertungen für verschiedene Aspekte der Hochschule ab.">
   <main>
-    <h1>Bewertungen</h1>
+    <h1>Bewertungen abgeben</h1>
     <form id="review-form">
+      <!-- Auswahlfeld für die Kategorie -->
+      <label for="review-category">Kategorie:</label>
+      <select id="review-category" required>
+        <option value="" disabled selected>Bitte wählen Sie eine Kategorie</option>
+        <option value="Bibliothek">Bibliothek</option>
+        <option value="Messe">Messe</option>
+        <option value="Lehrsystem">Lehrsystem</option>
+        <option value="Vorlesungen">Vorlesungen</option>
+        <option value="Professoren">Professoren</option>
+        <option value="Hochschulräume">Hochschulräume</option>
+        <option value="Sonstiges">Sonstiges</option>
+      </select>
+      <label for="review-subcategory" id="review-subcategory-label" style="display: none;">Unterkategorie:</label>
+      <select id="review-subcategory" style="display: none;" required>
+        <!-- Optionen für Sub-Kategorien werden hier dynamisch hinzugefügt -->
+      </select>
       <label for="review-message">Ihre Bewertung:</label>
       <textarea id="review-message" rows="5" placeholder="Ihre Bewertung" required></textarea>
       <label for="review-identity">
@@ -27,11 +43,83 @@ import Layout from '../layouts/Layout.astro';
 <script type="module">
   document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById('review-form');
+    const reviewCategorySelect = document.getElementById('review-category');
+    const reviewSubcategorySelect = document.getElementById('review-subcategory');
+    const reviewSubcategoryLabel = document.getElementById('review-subcategory-label');
     const reviewMessageInput = document.getElementById('review-message');
     const reviewIdentityCheckbox = document.getElementById('review-identity');
+    const backButton = document.getElementById('back-button');
+
+    reviewCategorySelect.addEventListener('change', () => {
+      const selectedCategory = reviewCategorySelect.value;
+
+      if (selectedCategory === 'Bibliothek') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Räumlichkeiten">Räumlichkeiten</option>
+          <option value="Benutzerservice">Benutzerservice</option>
+          <option value="Medienangebot">Medienangebot</option>
+        `;
+      } else if (selectedCategory === 'Messe') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Veranstaltung">Veranstaltung</option>
+          <option value="Stände">Stände</option>
+          <option value="Organisation">Organisation</option>
+        `;
+      } else if (selectedCategory === 'Lehrsystem') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Kursstruktur">Kursstruktur</option>
+          <option value="Lehrmaterialien">Lehrmaterialien</option>
+          <option value="Online-Ressourcen">Online-Ressourcen</option>
+        `;
+      } else if (selectedCategory === 'Vorlesungen') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein Thema</option>
+          <option value="Vorlesungsthemen">Vorlesungsthemen</option>
+          <option value="Dozenten">Dozenten</option>
+          <option value="Vorlesungsunterlagen">Vorlesungsunterlagen</option>
+          <option value="Prüfungen">Prüfungen</option>
+        `;
+      } else if (selectedCategory === 'Professoren') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Unterrichtsqualität">Unterrichtsqualität</option>
+          <option value="Verfügbarkeit">Verfügbarkeit</option>
+          <option value="Feedback und Unterstützung">Feedback und Unterstützung</option>
+        `;
+      } else if (selectedCategory === 'Hochschulräume') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Klassenzimmer">Klassenzimmer</option>
+          <option value="Labore">Labore</option>
+          <option value="Studierzimmer">Studierzimmer</option>
+          <option value="Campus">Campus</option>
+        `;
+      } else if (selectedCategory === 'Sonstiges') {
+        reviewSubcategoryLabel.style.display = 'none';
+        reviewSubcategorySelect.style.display = 'none';
+        reviewSubcategorySelect.innerHTML = '';
+      }
+    });
 
     reviewForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      const category = reviewCategorySelect.value;
+      const subcategory = reviewSubcategorySelect.value || '';
       const message = reviewMessageInput.value;
       const isIdentified = reviewIdentityCheckbox.checked;
 
@@ -41,15 +129,30 @@ import Layout from '../layouts/Layout.astro';
         return;
       }
 
+      let title = category;
+      if (category !== 'Sonstiges' && subcategory) {
+        title += `: ${subcategory}`;
+      }
+
       let reviewMessages = JSON.parse(localStorage.getItem('messages') || '[]');
-      reviewMessages.push({ id: Date.now(), type: 'Bewertung', message, username, replies: [] });
+      reviewMessages.push({
+        id: Date.now(),
+        type: 'Bewertung',
+        title,
+        message,
+        username,
+        replies: []
+      });
       localStorage.setItem('messages', JSON.stringify(reviewMessages));
       reviewMessageInput.value = '';
+      reviewCategorySelect.value = '';
+      reviewSubcategorySelect.innerHTML = '';
+      reviewSubcategoryLabel.style.display = 'none';
+      reviewSubcategorySelect.style.display = 'none';
       alert('Bewertung abgegeben!');
     });
 
     // Zurück-Button Logik
-    const backButton = document.getElementById('back-button');
     backButton.addEventListener('click', () => {
       window.history.back();  // Gehe zur vorherigen Seite
     });
@@ -80,6 +183,7 @@ import Layout from '../layouts/Layout.astro';
     gap: 1rem;
   }
 
+  select,
   textarea {
     padding: 0.5rem;
     border-radius: 8px;

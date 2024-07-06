@@ -2,12 +2,23 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Problem Melden">
+<Layout title="Problem melden" description="Melden Sie hier Probleme zu Ihrer Lernerfahrung.">
   <main>
     <h1>Problem melden</h1>
     <form id="problem-form">
-      <label for="problem-message">Beschreiben Sie das Problem:</label>
-      <textarea id="problem-message" rows="5" placeholder="Beschreiben Sie das Problem" required></textarea>
+      <!-- Auswahlfeld für die Kategorie -->
+      <label for="problem-category">Kategorie:</label>
+      <select id="problem-category" required>
+        <option value="" disabled selected>Bitte wählen Sie eine Kategorie</option>
+        <option value="Technisches Problem">Technisches Problem</option>
+        <option value="Inhaltliches Problem">Inhaltliches Problem</option>
+      </select>
+      <label for="problem-subcategory" id="problem-subcategory-label" style="display: none;">Kurs-Thema:</label>
+      <select id="problem-subcategory" style="display: none;" required>
+        <!-- Optionen für Sub-Kategorien für Kurse werden hier dynamisch hinzugefügt -->
+      </select>
+      <label for="problem-message">Ihre Nachricht:</label>
+      <textarea id="problem-message" rows="5" placeholder="Ihr Problem" required></textarea>
       <label for="problem-identity">
         <input type="checkbox" id="problem-identity" />
         Als Benutzer identifizieren
@@ -27,11 +38,45 @@ import Layout from '../layouts/Layout.astro';
 <script type="module">
   document.addEventListener('DOMContentLoaded', () => {
     const problemForm = document.getElementById('problem-form');
+    const problemCategorySelect = document.getElementById('problem-category');
+    const problemSubcategorySelect = document.getElementById('problem-subcategory');
+    const problemSubcategoryLabel = document.getElementById('problem-subcategory-label');
     const problemMessageInput = document.getElementById('problem-message');
     const problemIdentityCheckbox = document.getElementById('problem-identity');
+    const backButton = document.getElementById('back-button');
+
+    problemCategorySelect.addEventListener('change', () => {
+      const selectedCategory = problemCategorySelect.value;
+
+      if (selectedCategory === 'Technisches Problem') {
+        problemSubcategoryLabel.style.display = 'block';
+        problemSubcategorySelect.style.display = 'block';
+        problemSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein technisches Problem</option>
+          <option value="Website funktioniert nicht">Website funktioniert nicht</option>
+          <option value="Fehler bei der Anmeldung">Fehler bei der Anmeldung</option>
+          <option value="Sonstiges technisches Problem">Sonstiges technisches Problem</option>
+        `;
+      } else if (selectedCategory === 'Inhaltliches Problem') {
+        problemSubcategoryLabel.style.display = 'block';
+        problemSubcategorySelect.style.display = 'block';
+        problemSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein inhaltliches Problem</option>
+          <option value="Falsche Informationen">Falsche Informationen</option>
+          <option value="Unklare Erklärungen">Unklare Erklärungen</option>
+          <option value="Sonstiges inhaltliches Problem">Sonstiges inhaltliches Problem</option>
+        `;
+      } else {
+        problemSubcategoryLabel.style.display = 'none';
+        problemSubcategorySelect.style.display = 'none';
+        problemSubcategorySelect.innerHTML = '';
+      }
+    });
 
     problemForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      const category = problemCategorySelect.value;
+      const subcategory = problemSubcategorySelect.value || '';
       const message = problemMessageInput.value;
       const isIdentified = problemIdentityCheckbox.checked;
 
@@ -41,15 +86,30 @@ import Layout from '../layouts/Layout.astro';
         return;
       }
 
+      let title = category;
+      if (subcategory) {
+        title += `: ${subcategory}`;
+      }
+
       let problemMessages = JSON.parse(localStorage.getItem('messages') || '[]');
-      problemMessages.push({ id: Date.now(), type: 'Problem', message, username, replies: [] });
+      problemMessages.push({
+        id: Date.now(),
+        type: 'Problem',
+        title,
+        message,
+        username,
+        replies: []
+      });
       localStorage.setItem('messages', JSON.stringify(problemMessages));
       problemMessageInput.value = '';
-      alert('Problem gemeldet!');
+      problemCategorySelect.value = '';
+      problemSubcategorySelect.innerHTML = '';
+      problemSubcategoryLabel.style.display = 'none';
+      problemSubcategorySelect.style.display = 'none';
+      alert('Problem wurde gemeldet!');
     });
 
     // Zurück-Button Logik
-    const backButton = document.getElementById('back-button');
     backButton.addEventListener('click', () => {
       window.history.back();  // Gehe zur vorherigen Seite
     });
@@ -80,6 +140,7 @@ import Layout from '../layouts/Layout.astro';
     gap: 1rem;
   }
 
+  select,
   textarea {
     padding: 0.5rem;
     border-radius: 8px;

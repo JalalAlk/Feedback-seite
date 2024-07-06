@@ -1,4 +1,4 @@
----
+
 import Layout from '../layouts/Layout.astro';
 ---
 
@@ -43,7 +43,7 @@ import Layout from '../layouts/Layout.astro';
       if (filteredMessages.length === 0) {
         responsesContainer.innerHTML = '<li class="no-messages">Keine Nachrichten vorhanden.</li>';
       } else {
-        filteredMessages.forEach((msg, index) => {
+        filteredMessages.forEach((msg) => {
           const messageItem = document.createElement('li');
           messageItem.className = 'message-item';
 
@@ -87,6 +87,7 @@ import Layout from '../layouts/Layout.astro';
           // Button zum Antworten auf eine Nachricht
           const replyButton = document.createElement('button');
           replyButton.textContent = 'Antworten';
+          replyButton.className = 'reply-button';
           replyButton.onclick = function() {
             const reply = prompt('Ihre Antwort:');
             if (reply) {
@@ -141,7 +142,7 @@ import Layout from '../layouts/Layout.astro';
     color: #060606;
     font-size: 16px;
     line-height: 1.5;
-    position: relative;  /* Wichtig für die Positionierung des "Zurück"-Buttons */
+    position: relative;
   }
 
   .button-container {
@@ -152,14 +153,14 @@ import Layout from '../layouts/Layout.astro';
 
   .filter-button {
     display: inline-block;
-    padding: 0.75rem 1.25rem;  /* Padding für Button-Größe */
+    padding: 0.75rem 1.25rem;
     color: #070606;
     text-decoration: none;
     margin: 0 0.5rem;
     background: linear-gradient(to right, rgb(177 228 160), rgb(233 241 239));
-    border-radius: 8px;  /* Abgerundete Ecken */
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);  /* Leichter Schatten */
-    transition: background 0.3s ease, transform 0.3s ease;  /* Übergangseffekte */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    transition: background 0.3s ease, transform 0.3s ease;
   }
 
   .filter-button:hover {
@@ -167,12 +168,12 @@ import Layout from '../layouts/Layout.astro';
   }
 
   #responses-container {
-    border: 1px solid #ddd; /* Rahmen für den Container */
-    border-radius: 8px; /* Abgerundete Ecken */
+    border: 1px solid #ddd;
+    border-radius: 8px;
     padding: 0.5rem;
-    background: #f9f9f9; /* Hintergrundfarbe für Container */
-    max-height: 500px; /* Maximale Höhe für Container */
-    overflow-y: auto; /* Ermöglicht vertikales Scrollen */
+    background: #f9f9f9;
+    max-height: 500px;
+    overflow-y: auto;
   }
 
   #responses {
@@ -183,7 +184,7 @@ import Layout from '../layouts/Layout.astro';
 
   .message-item {
     border-bottom: 1px solid rgb(0 0 0 / 10%);
-    padding: 1rem;
+    padding: 0.5rem;
   }
 
   .message-item:last-child {
@@ -193,7 +194,7 @@ import Layout from '../layouts/Layout.astro';
   .message {
     padding: 1rem;
     border-radius: 8px;
-    background: #f7f7f7;
+    background: #fff;
     margin-bottom: 1rem;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   }
@@ -257,7 +258,7 @@ import Layout from '../layouts/Layout.astro';
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-left: 10px; /* Abstand zum Antwort-Button */
+    margin-left: 10px;
   }
 
   .delete-button:hover {
@@ -271,11 +272,10 @@ import Layout from '../layouts/Layout.astro';
     padding: 1rem;
   }
 
-  /* Stil für den "Zurück" Button mit Pfeil */
   #back-button {
-    position: absolute;  /* Positionierung innerhalb von "main" */
-    bottom: 1rem;        /* Abstand vom unteren Rand */
-    right: 1rem;         /* Abstand vom rechten Rand */
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -290,12 +290,11 @@ import Layout from '../layouts/Layout.astro';
   }
 
   #back-button:hover {
-    background: rgb(145 190 130);
+    background: rgb(133 130 190);
     transform: translateY(-2px);
   }
 
-  /* Stil für das Pfeil-SVG */
   #back-button svg {
-    fill: currentcolor;  /* Erbt die Textfarbe des Buttons */
+    fill: currentcolor;
   }
 </style>
