@@ -1,10 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
+
 <Layout title="Feedback" description="Geben Sie hier Ihr Feedback zu Ihrer Lernerfahrung ab.">
   <main>
     <h1>Feedback geben</h1>
     <form id="feedback-form">
+      <!-- Auswahlfeld für die Kategorie -->
+      <label for="feedback-category">Kategorie:</label>
+      <select id="feedback-category" required>
+        <option value="" disabled selected>Bitte wählen Sie eine Kategorie</option>
+        <option value="Kurse">Kurse</option>
+        <option value="Sonstiges">Sonstiges</option>
+      </select>
+      <label for="feedback-subcategory" id="feedback-subcategory-label" style="display: none;">Kurs-Thema:</label>
+      <select id="feedback-subcategory" style="display: none;" required>
+        <!-- Optionen für Sub-Kategorien für Kurse werden hier dynamisch hinzugefügt -->
+      </select>
       <label for="feedback-message">Ihre Nachricht:</label>
       <textarea id="feedback-message" rows="5" placeholder="Ihr Feedback" required></textarea>
       <label for="feedback-identity">
@@ -13,17 +25,49 @@ import Layout from '../layouts/Layout.astro';
       </label>
       <button type="submit">Feedback senden</button>
     </form>
+    <!-- Der "Zurück zur Seite" Button als Pfeil -->
+    <button id="back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M14 7l-5 5 5 5V7z"/>
+      </svg>
+      Zurück
+    </button>
   </main>
 </Layout>
 
 <script type="module">
   document.addEventListener('DOMContentLoaded', () => {
     const feedbackForm = document.getElementById('feedback-form');
+    const feedbackCategorySelect = document.getElementById('feedback-category');
+    const feedbackSubcategorySelect = document.getElementById('feedback-subcategory');
+    const feedbackSubcategoryLabel = document.getElementById('feedback-subcategory-label');
     const feedbackMessageInput = document.getElementById('feedback-message');
     const feedbackIdentityCheckbox = document.getElementById('feedback-identity');
+    const backButton = document.getElementById('back-button');
+
+    feedbackCategorySelect.addEventListener('change', () => {
+      const selectedCategory = feedbackCategorySelect.value;
+
+      if (selectedCategory === 'Kurse') {
+        feedbackSubcategoryLabel.style.display = 'block';
+        feedbackSubcategorySelect.style.display = 'block';
+        feedbackSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein Kurs-Thema</option>
+          <option value="Mathematik 3">Mathematik 3</option>
+          <option value="Programmierung 4">Programmierung 4</option>
+          <option value="UserExperience">UserExperience</option>
+        `;
+      } else if (selectedCategory === 'Sonstiges') {
+        feedbackSubcategoryLabel.style.display = 'none';
+        feedbackSubcategorySelect.style.display = 'none';
+        feedbackSubcategorySelect.innerHTML = '';
+      }
+    });
 
     feedbackForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      const category = feedbackCategorySelect.value;
+      const subcategory = feedbackSubcategorySelect.value || '';
       const message = feedbackMessageInput.value;
       const isIdentified = feedbackIdentityCheckbox.checked;
 
@@ -33,11 +77,32 @@ import Layout from '../layouts/Layout.astro';
         return;
       }
 
+      let title = category;
+      if (category === 'Kurse' && subcategory) {
+        title += `: ${subcategory}`;
+      }
+
       let feedbackMessages = JSON.parse(localStorage.getItem('messages') || '[]');
-      feedbackMessages.push({ id: Date.now(), type: 'Feedback', message, username, replies: [] });
+      feedbackMessages.push({
+        id: Date.now(),
+        type: 'Feedback',
+        title,
+        message,
+        username,
+        replies: []
+      });
       localStorage.setItem('messages', JSON.stringify(feedbackMessages));
       feedbackMessageInput.value = '';
+      feedbackCategorySelect.value = '';
+      feedbackSubcategorySelect.innerHTML = '';
+      feedbackSubcategoryLabel.style.display = 'none';
+      feedbackSubcategorySelect.style.display = 'none';
       alert('Feedback gesendet!');
+    });
+
+    // Zurück-Button Logik
+    backButton.addEventListener('click', () => {
+      window.history.back();  // Gehe zur vorherigen Seite
     });
   });
 </script>
@@ -52,6 +117,7 @@ import Layout from '../layouts/Layout.astro';
     border-radius: 10px;
     color: #0f0e0e;
     text-align: center;
+    position: relative;  /* Wichtig für die Positionierung des "Zurück"-Buttons */
   }
 
   h1 {
@@ -65,6 +131,7 @@ import Layout from '../layouts/Layout.astro';
     gap: 1rem;
   }
 
+  select,
   textarea {
     padding: 0.5rem;
     border-radius: 8px;
@@ -86,5 +153,33 @@ import Layout from '../layouts/Layout.astro';
   button:hover {
     background: #c05;
     transform: translateY(-2px);
+  }
+
+  /* Stil für den "Zurück" Button mit Pfeil */
+  #back-button {
+    position: absolute;  /* Positionierung innerhalb von "main" */
+    bottom: -0.7rem;        /* Abstand vom unteren Rand */
+    right: 0;         /* Abstand vom rechten Rand */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to right, rgb(231 238 231), rgb(13 6 6));
+    color: hsl(0deg 7% 3%);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  #back-button:hover {
+    background: rgb(145 190 130);
+    transform: translateY(-2px);
+  }
+
+  /* Stil für das Pfeil-SVG */
+  #back-button svg {
+    fill: currentcolor;  /* Erbt die Textfarbe des Buttons */
   }
 </style>

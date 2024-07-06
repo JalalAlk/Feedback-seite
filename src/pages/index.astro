@@ -33,14 +33,21 @@ import Card from '../components/Card.astro';
   }
   
   form {
-    margin-left: 375px;
-    background: #668979;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+    justify-content: center;
+    background: #4a5f61;
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgb(9 31 19);
     max-width: 400px;
     width: 100%;
-  }
+    position: relative;
+  top: 50%; /* Position in der Mitte der Seite */
+}
+
   
   label {
     display: block;

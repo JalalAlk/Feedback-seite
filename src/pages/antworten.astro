@@ -13,6 +13,13 @@ import Layout from '../layouts/Layout.astro';
     <div id="responses-container">
       <ul id="responses"></ul>
     </div>
+    <!-- Der "Zurück zur Seite" Button als Pfeil -->
+    <button id="back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M14 7l-5 5 5 5V7z"/>
+      </svg>
+      Zurück
+    </button>
   </main>
 </Layout>
 
@@ -34,27 +41,37 @@ import Layout from '../layouts/Layout.astro';
       const filteredMessages = messages.filter(msg => msg.type === type);
 
       if (filteredMessages.length === 0) {
-        responsesContainer.innerHTML = '<li>Keine Nachrichten vorhanden.</li>';
+        responsesContainer.innerHTML = '<li class="no-messages">Keine Nachrichten vorhanden.</li>';
       } else {
         filteredMessages.forEach((msg, index) => {
           const messageItem = document.createElement('li');
           messageItem.className = 'message-item';
-          
+
           const messageDiv = document.createElement('div');
           messageDiv.className = 'message';
 
-          const messageType = document.createElement('h2');
-          messageType.textContent = msg.type;
+          // Titel der Nachricht anzeigen
+          const messageTitle = document.createElement('h2');
+          messageTitle.textContent = msg.title || msg.type;
+          messageDiv.appendChild(messageTitle);
+
+          // Typ der Nachricht anzeigen
+          const messageType = document.createElement('p');
+          messageType.className = 'message-type';
+          messageType.textContent = `Typ: ${msg.type}`;
           messageDiv.appendChild(messageType);
 
+          // Inhalt der Nachricht anzeigen
           const messageContent = document.createElement('p');
           messageContent.textContent = msg.message;
           messageDiv.appendChild(messageContent);
 
+          // Absender der Nachricht anzeigen
           const messageUser = document.createElement('span');
           messageUser.textContent = `Von: ${msg.username || 'Anonym'}`;
           messageDiv.appendChild(messageUser);
 
+          // Antworten der Nachricht anzeigen
           if (msg.replies && msg.replies.length > 0) {
             const repliesDiv = document.createElement('div');
             repliesDiv.className = 'replies';
@@ -67,6 +84,7 @@ import Layout from '../layouts/Layout.astro';
             messageDiv.appendChild(repliesDiv);
           }
 
+          // Button zum Antworten auf eine Nachricht
           const replyButton = document.createElement('button');
           replyButton.textContent = 'Antworten';
           replyButton.onclick = function() {
@@ -83,6 +101,7 @@ import Layout from '../layouts/Layout.astro';
           };
           messageDiv.appendChild(replyButton);
 
+          // Button zum Löschen einer Nachricht
           const deleteButton = document.createElement('button');
           deleteButton.className = 'delete-button';
           deleteButton.textContent = 'Löschen';
@@ -101,6 +120,15 @@ import Layout from '../layouts/Layout.astro';
         });
       }
     }
+
+    // Zurück-Button Logik
+    const backButton = document.getElementById('back-button');
+    backButton.addEventListener('click', () => {
+      window.history.back();  // Gehe zur vorherigen Seite
+    });
+
+    // Initiale Anzeige der Nachrichten
+    displayMessages('Feedback');  // Standardmäßig 'Feedback' anzeigen
   });
 </script>
 
@@ -109,10 +137,11 @@ import Layout from '../layouts/Layout.astro';
     margin: auto;
     padding: 1rem;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     color: #060606;
     font-size: 16px;
     line-height: 1.5;
+    position: relative;  /* Wichtig für die Positionierung des "Zurück"-Buttons */
   }
 
   .button-container {
@@ -123,23 +152,27 @@ import Layout from '../layouts/Layout.astro';
 
   .filter-button {
     display: inline-block;
-    padding: 0.5rem 1rem;  /* Padding für Button-Größe */
+    padding: 0.75rem 1.25rem;  /* Padding für Button-Größe */
     color: #070606;
     text-decoration: none;
     margin: 0 0.5rem;
-    background: linear-gradient(to right, rgb(177, 228, 160), rgb(233, 241, 239));
+    background: linear-gradient(to right, rgb(177 228 160), rgb(233 241 239));
     border-radius: 8px;  /* Abgerundete Ecken */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Leichter Schatten */
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);  /* Leichter Schatten */
     transition: background 0.3s ease, transform 0.3s ease;  /* Übergangseffekte */
   }
 
   .filter-button:hover {
-    background: rgb(145, 190, 130);
+    background: rgb(145 190 130);
   }
 
   #responses-container {
-    max-height: 400px;
-    overflow-y: auto;
+    border: 1px solid #ddd; /* Rahmen für den Container */
+    border-radius: 8px; /* Abgerundete Ecken */
+    padding: 0.5rem;
+    background: #f9f9f9; /* Hintergrundfarbe für Container */
+    max-height: 500px; /* Maximale Höhe für Container */
+    overflow-y: auto; /* Ermöglicht vertikales Scrollen */
   }
 
   #responses {
@@ -149,7 +182,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .message-item {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgb(0 0 0 / 10%);
     padding: 1rem;
   }
 
@@ -162,12 +195,18 @@ import Layout from '../layouts/Layout.astro';
     border-radius: 8px;
     background: #f7f7f7;
     margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   }
 
   .message h2 {
     margin: 0;
     font-size: 1.2rem;
     color: #333;
+  }
+
+  .message .message-type {
+    font-size: 0.9rem;
+    color: #888;
   }
 
   .message p {
@@ -193,9 +232,9 @@ import Layout from '../layouts/Layout.astro';
     color: #555;
   }
 
-  button {
+  .reply-button {
     padding: 0.5rem;
-    background: linear-gradient(to right, rgb(233, 241, 239), rgb(177, 228, 160));
+    background: linear-gradient(to right, rgb(233 241 239), rgb(177 228 160));
     color: #070606;
     border: none;
     border-radius: 8px;
@@ -205,8 +244,8 @@ import Layout from '../layouts/Layout.astro';
     transition: background 0.3s ease, transform 0.3s ease;
   }
 
-  button:hover {
-    background: rgb(145, 190, 130);
+  .reply-button:hover {
+    background: rgb(145 190 130);
   }
 
   .delete-button {
@@ -224,5 +263,39 @@ import Layout from '../layouts/Layout.astro';
   .delete-button:hover {
     background: #f1e5e3;
   }
-</style>
 
+  .no-messages {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  /* Stil für den "Zurück" Button mit Pfeil */
+  #back-button {
+    position: absolute;  /* Positionierung innerhalb von "main" */
+    bottom: 1rem;        /* Abstand vom unteren Rand */
+    right: 1rem;         /* Abstand vom rechten Rand */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to right, rgb(231 238 231), rgb(13 6 6));
+    color: hsl(0deg 7% 3%);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  #back-button:hover {
+    background: rgb(145 190 130);
+    transform: translateY(-2px);
+  }
+
+  /* Stil für das Pfeil-SVG */
+  #back-button svg {
+    fill: currentcolor;  /* Erbt die Textfarbe des Buttons */
+  }
+</style>
