@@ -1,17 +1,89 @@
-<!DOCTYPE html><html lang="de" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description"><title>Bewertungen</title><style>body{font-family:Arial,sans-serif;background:#ded7d7;color:#ddd;margin:0;padding:0}header[data-astro-cid-sckkx6r4]{background:#f4ebeb;padding:1rem;color:#060606;text-align:center}header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4]{margin:0;font-size:24px}header[data-astro-cid-sckkx6r4] nav[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]{display:inline-block;padding:.5rem 1rem;color:#070606;text-decoration:none;margin:0 .5rem;background:linear-gradient(to right,#b1e4a0,#e9f1ef);border-radius:8px;box-shadow:0 2px 4px #0000001a;transition:background .3s ease,transform .3s ease}header[data-astro-cid-sckkx6r4] nav[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]:hover{background:linear-gradient(to right,#91be82,#c8d0cd);text-decoration:none;transform:translateY(-2px)}footer[data-astro-cid-sckkx6r4]{background:#cdc5c5;color:#fff;padding:.1rem;text-align:center;position:fixed;bottom:0;width:100%}main[data-astro-cid-sckkx6r4]{margin:auto;padding:2rem;max-width:2000px;background:#f7f7f7fd;border-radius:10px}
-main[data-astro-cid-ait4jywk]{margin:auto;padding:2rem;width:100%;max-width:600px;background:#e0d9d2;border-radius:10px;color:#0f0e0e;text-align:center;position:relative}h1[data-astro-cid-ait4jywk]{margin-bottom:3rem;font-size:28px}form[data-astro-cid-ait4jywk]{display:flex;flex-direction:column;gap:1rem}textarea[data-astro-cid-ait4jywk]{padding:.5rem;border-radius:8px;border:1px solid #0a0202;background:#e9e2e2;color:#110505}button[data-astro-cid-ait4jywk]{padding:.75rem;background:linear-gradient(to right,#2e6f18,#a8ffea00);color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .3s ease,transform .3s ease}button[data-astro-cid-ait4jywk]:hover{background:#c05;transform:translateY(-2px)}#back-button[data-astro-cid-ait4jywk]{position:absolute;bottom:-.7rem;right:0;display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:linear-gradient(to right,#e7eee7,#0d0606);color:#080707;border:none;border-radius:8px;box-shadow:0 2px 4px #0000001a;cursor:pointer;transition:background .3s ease,transform .3s ease}#back-button[data-astro-cid-ait4jywk]:hover{background:#91be82;transform:translateY(-2px)}#back-button[data-astro-cid-ait4jywk] svg[data-astro-cid-ait4jywk]{fill:currentcolor}
-</style></head> <body data-astro-cid-sckkx6r4> <header data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4>Feedback-System</h1> <nav data-astro-cid-sckkx6r4> <a href="/startseite" data-astro-cid-sckkx6r4>Startseite</a> </nav> </header> <main data-astro-cid-sckkx6r4>  <main data-astro-cid-ait4jywk> <h1 data-astro-cid-ait4jywk>Bewertungen</h1> <form id="review-form" data-astro-cid-ait4jywk> <label for="review-message" data-astro-cid-ait4jywk>Ihre Bewertung:</label> <textarea id="review-message" rows="5" placeholder="Ihre Bewertung" required data-astro-cid-ait4jywk></textarea> <label for="review-identity" data-astro-cid-ait4jywk> <input type="checkbox" id="review-identity" data-astro-cid-ait4jywk>
+<!DOCTYPE html><html lang="de" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Geben Sie hier Ihre Bewertungen für verschiedene Aspekte der Hochschule ab."><title>Bewertungen</title><style>body{background:#ded7d7;color:#ddd;margin:0;padding:0}header[data-astro-cid-sckkx6r4]{background:#f4ebeb;padding:1rem;color:#060606;text-align:center}header[data-astro-cid-sckkx6r4] h1[data-astro-cid-sckkx6r4]{margin:0;font-size:24px}header[data-astro-cid-sckkx6r4] nav[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]{display:inline-block;color:#070606;text-decoration:none;margin:0 .5rem;background:linear-gradient(to right,#e4bda0,#e9f1ef);border-radius:8px;box-shadow:0 2px 4px #0000001a;transition:background .3s ease,transform .3s ease}header[data-astro-cid-sckkx6r4] nav[data-astro-cid-sckkx6r4] a[data-astro-cid-sckkx6r4]:hover{background:linear-gradient(to right,#be828c,#c8d0cd);text-decoration:none;transform:translateY(-2px)}footer[data-astro-cid-sckkx6r4]{background:#cdc5c5;color:#fff;padding:.1rem;text-align:center;position:fixed;bottom:0;width:100%}main[data-astro-cid-sckkx6r4]{padding:2rem;max-width:2000px;background:#f7f7f7fd;border-radius:10px}
+main[data-astro-cid-ait4jywk]{margin:auto;padding:2rem;width:100%;max-width:600px;background:#e0d9d2;border-radius:10px;color:#0f0e0e;text-align:center;position:relative}h1[data-astro-cid-ait4jywk]{margin-bottom:3rem;font-size:28px}form[data-astro-cid-ait4jywk]{display:flex;flex-direction:column;gap:1rem}select[data-astro-cid-ait4jywk],textarea[data-astro-cid-ait4jywk]{padding:.5rem;border-radius:8px;border:1px solid #0a0202;background:#e9e2e2;color:#110505}button[data-astro-cid-ait4jywk]{padding:.75rem;background:linear-gradient(to right,#2e6f18,#a8ffea00);color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .3s ease,transform .3s ease}button[data-astro-cid-ait4jywk]:hover{background:#c05;transform:translateY(-2px)}#back-button[data-astro-cid-ait4jywk]{position:absolute;bottom:-.7rem;right:0;display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:linear-gradient(to right,#e7eee7,#0d0606);color:#080707;border:none;border-radius:8px;box-shadow:0 2px 4px #0000001a;cursor:pointer;transition:background .3s ease,transform .3s ease}#back-button[data-astro-cid-ait4jywk]:hover{background:#91be82;transform:translateY(-2px)}#back-button[data-astro-cid-ait4jywk] svg[data-astro-cid-ait4jywk]{fill:currentcolor}
+</style></head> <body data-astro-cid-sckkx6r4> <header data-astro-cid-sckkx6r4> <h1 data-astro-cid-sckkx6r4>Feedback-System</h1> <nav data-astro-cid-sckkx6r4> <a href="/startseite" data-astro-cid-sckkx6r4>Startseite</a> </nav> </header> <main data-astro-cid-sckkx6r4>  <main data-astro-cid-ait4jywk> <h1 data-astro-cid-ait4jywk>Bewertungen abgeben</h1> <form id="review-form" data-astro-cid-ait4jywk> <!-- Auswahlfeld für die Kategorie --> <label for="review-category" data-astro-cid-ait4jywk>Kategorie:</label> <select id="review-category" required data-astro-cid-ait4jywk> <option value="" disabled selected data-astro-cid-ait4jywk>Bitte wählen Sie eine Kategorie</option> <option value="Bibliothek" data-astro-cid-ait4jywk>Bibliothek</option> <option value="Messe" data-astro-cid-ait4jywk>Messe</option> <option value="Lehrsystem" data-astro-cid-ait4jywk>Lehrsystem</option> <option value="Vorlesungen" data-astro-cid-ait4jywk>Vorlesungen</option> <option value="Professoren" data-astro-cid-ait4jywk>Professoren</option> <option value="Hochschulräume" data-astro-cid-ait4jywk>Hochschulräume</option> <option value="Sonstiges" data-astro-cid-ait4jywk>Sonstiges</option> </select> <label for="review-subcategory" id="review-subcategory-label" style="display: none;" data-astro-cid-ait4jywk>Unterkategorie:</label> <select id="review-subcategory" style="display: none;" required data-astro-cid-ait4jywk> <!-- Optionen für Sub-Kategorien werden hier dynamisch hinzugefügt --> </select> <label for="review-message" data-astro-cid-ait4jywk>Ihre Bewertung:</label> <textarea id="review-message" rows="5" placeholder="Ihre Bewertung" required data-astro-cid-ait4jywk></textarea> <label for="review-identity" data-astro-cid-ait4jywk> <input type="checkbox" id="review-identity" data-astro-cid-ait4jywk>
 Als Benutzer identifizieren
 </label> <button type="submit" data-astro-cid-ait4jywk>Bewertung abgeben</button> </form> <!-- Der "Zurück zur Seite" Button als Pfeil --> <button id="back-button" data-astro-cid-ait4jywk> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" data-astro-cid-ait4jywk> <path d="M14 7l-5 5 5 5V7z" data-astro-cid-ait4jywk></path> </svg>
 Zurück
-</button> </main>  </main> <footer data-astro-cid-sckkx6r4></footer> </body></html> <script type="module">
+</button> </main>  </main> <footer data-astro-cid-sckkx6r4></footer></body></html> <script type="module">
   document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById('review-form');
+    const reviewCategorySelect = document.getElementById('review-category');
+    const reviewSubcategorySelect = document.getElementById('review-subcategory');
+    const reviewSubcategoryLabel = document.getElementById('review-subcategory-label');
     const reviewMessageInput = document.getElementById('review-message');
     const reviewIdentityCheckbox = document.getElementById('review-identity');
+    const backButton = document.getElementById('back-button');
+
+    reviewCategorySelect.addEventListener('change', () => {
+      const selectedCategory = reviewCategorySelect.value;
+
+      if (selectedCategory === 'Bibliothek') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Räumlichkeiten">Räumlichkeiten</option>
+          <option value="Benutzerservice">Benutzerservice</option>
+          <option value="Medienangebot">Medienangebot</option>
+        `;
+      } else if (selectedCategory === 'Messe') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Veranstaltung">Veranstaltung</option>
+          <option value="Stände">Stände</option>
+          <option value="Organisation">Organisation</option>
+        `;
+      } else if (selectedCategory === 'Lehrsystem') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Kursstruktur">Kursstruktur</option>
+          <option value="Lehrmaterialien">Lehrmaterialien</option>
+          <option value="Online-Ressourcen">Online-Ressourcen</option>
+        `;
+      } else if (selectedCategory === 'Vorlesungen') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie ein Thema</option>
+          <option value="Vorlesungsthemen">Vorlesungsthemen</option>
+          <option value="Dozenten">Dozenten</option>
+          <option value="Vorlesungsunterlagen">Vorlesungsunterlagen</option>
+          <option value="Prüfungen">Prüfungen</option>
+        `;
+      } else if (selectedCategory === 'Professoren') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Unterrichtsqualität">Unterrichtsqualität</option>
+          <option value="Verfügbarkeit">Verfügbarkeit</option>
+          <option value="Feedback und Unterstützung">Feedback und Unterstützung</option>
+        `;
+      } else if (selectedCategory === 'Hochschulräume') {
+        reviewSubcategoryLabel.style.display = 'block';
+        reviewSubcategorySelect.style.display = 'block';
+        reviewSubcategorySelect.innerHTML = `
+          <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
+          <option value="Klassenzimmer">Klassenzimmer</option>
+          <option value="Labore">Labore</option>
+          <option value="Studierzimmer">Studierzimmer</option>
+          <option value="Campus">Campus</option>
+        `;
+      } else if (selectedCategory === 'Sonstiges') {
+        reviewSubcategoryLabel.style.display = 'none';
+        reviewSubcategorySelect.style.display = 'none';
+        reviewSubcategorySelect.innerHTML = '';
+      }
+    });
 
     reviewForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      const category = reviewCategorySelect.value;
+      const subcategory = reviewSubcategorySelect.value || '';
       const message = reviewMessageInput.value;
       const isIdentified = reviewIdentityCheckbox.checked;
 
@@ -21,15 +93,30 @@ Zurück
         return;
       }
 
+      let title = category;
+      if (category !== 'Sonstiges' && subcategory) {
+        title += `: ${subcategory}`;
+      }
+
       let reviewMessages = JSON.parse(localStorage.getItem('messages') || '[]');
-      reviewMessages.push({ id: Date.now(), type: 'Bewertung', message, username, replies: [] });
+      reviewMessages.push({
+        id: Date.now(),
+        type: 'Bewertung',
+        title,
+        message,
+        username,
+        replies: []
+      });
       localStorage.setItem('messages', JSON.stringify(reviewMessages));
       reviewMessageInput.value = '';
+      reviewCategorySelect.value = '';
+      reviewSubcategorySelect.innerHTML = '';
+      reviewSubcategoryLabel.style.display = 'none';
+      reviewSubcategorySelect.style.display = 'none';
       alert('Bewertung abgegeben!');
     });
 
     // Zurück-Button Logik
-    const backButton = document.getElementById('back-button');
     backButton.addEventListener('click', () => {
       window.history.back();  // Gehe zur vorherigen Seite
     });
