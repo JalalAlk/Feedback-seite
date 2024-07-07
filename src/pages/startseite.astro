@@ -12,13 +12,49 @@ import Layout from '../layouts/Layout.astro';
     <a href="/bewertungen" class="button">Bewertung</a>
   </div>
   <main>
-    <h1>HTW Saar!</h1>
+    <body>
+      <div class="container">
+          <div class="text">
+              <h2>Arbeiten an der HTW Saar</h2>
+              <p>Willkommen auf unserer Seite für Studenten!
+  
+  Liebe Studentinnen und Studenten,
+  
+  Herzlich willkommen auf unserer Plattform, die speziell darauf ausgerichtet ist, euch während eures akademischen Weges zu unterstützen und zu begleiten. Wir freuen uns sehr, dass ihr euch entschieden habt, Teil unserer Community zu werden.</p>
+          </div>
+          <div class="image">
+              <img src="https://www.htwsaar.de/hochschule/arbeiten-an-der-htw-saar/arbeiten-an-der-htw-saar/@@images/headerimage/fullhd" alt="HTW Saar Bild">
+          </div>
+      </div>
+  </body>
   </main>
   <style>
+.container {
+    max-width: 800px;
+    margin: 50px auto; /* zentriert die Box horizontal */
+    display: flex;
+    align-items: center; /* vertikal zentrieren */
+}
+
+.text {
+    flex: 1; /* Flexibles Layout für Textbereich */
+    padding: 20px;
+}
+
+.image {
+    flex: 1; /* Flexibles Layout für Bildbereich */
+    padding: 20px;
+}
+
+.image img {
+    max-width: 100%; /* Bild wird innerhalb seines Containers responsiv angepasst */
+    height: auto;
+    display: block; /* Bild als Blockelement, um Abstände zu verwalten */
+}
     .button {
       padding: 0.5rem 1rem;
-      background: linear-gradient(to right, #3bdbdb, #0ab3d1);
-      color: #fff;
+      
+      color: #f6f3f3;
       border: none;
       border-radius: 8px;
       text-decoration: none;
@@ -28,7 +64,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .button:hover {
-      background: linear-gradient(to right, #8ff4fb, #97f9f8);
+      background: linear-gradient(to right, #1b1e22, #43474f);
       transform: translateY(-2px);
     }
 
