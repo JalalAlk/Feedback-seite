@@ -2,87 +2,43 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Startseite">
+<Layout title="Startseite" description="Willkommen auf der Startseite">
+  <div slot="options">
+    <a href="/feedback" class="button">Feedback</a>
+    <a href="/user-messages" class="button">Meine Nachrichten</a>
+    <a href="/antworten" class="button">Antworten</a>
+    <a href="/verbesserungsvorschlaege" class="button">Verbesserungsvorschläge</a>
+    <a href="/problem-melden" class="button">Problem Melden</a>
+    <a href="/bewertungen" class="button">Bewertung</a>
+  </div>
   <main>
     <h1>HTW Saar!</h1>
-    <div class="button-container">
-      <a href="/feedback" class="button">Feedback</a>
-      <a href="/user-messages" class="button">Meine Nachrichten</a>
-      <a href="/antworten" class="button">Antworten</a>
-      <a href="/verbesserungsvorschlaege" class="button">Verbesserungsvorschläge</a>
-      <a href="/problem-melden" class="button">Problem Melden</a>
-      <a href="/bewertungen" class="button">Bewertung</a>
-      
-      
-    </div>
   </main>
+  <style>
+    .button {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(to right, #3bdbdb, #0ab3d1);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+    }
+
+    .button:hover {
+      background: linear-gradient(to right, #8ff4fb, #97f9f8);
+      transform: translateY(-2px);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .button:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+  </style>
 </Layout>
-
-<style>
-  :root {
-    --background-dark: #1e1e1e;
-    --text-light: #1b1a1a;
-    --accent-gradient: linear-gradient(to right, #c79a9a, #aac5bc);
-    --accent-dark: #295b59;
-  }
-
-  body {
-    background-color: var(--background-dark);
-    color: var(--text-light);
-    font-family: Arial, sans-serif; /* Fallback Schriftart */
-    margin: 0;
-    padding: 0;
-  }
-
-  main {
-    margin: auto;
-      padding: 2rem;
-      max-width: 800px;
-      background: #f0eded;
-      border-radius: 10px;
-    color: var(--text-light);
-    text-align: center;
-    
-  }
-
-  h1 {
-    margin-bottom: 2rem;
-    font-size: 48px;
-    color: var(--accent-gradient);
-    font-weight: bold; /* Fett für eine bessere Sichtbarkeit */
-  }
-
-  .button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .button {
-    padding: 1rem 2rem;
-    background: var(--accent-gradient);
-    color: var(--text-light);
-    border: none;
-    border-radius: 12px;
-    text-decoration: none;
-    font-size: 18px;
-    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    display: block;
-  }
-
-  .button:hover {
-    background: var(--accent-dark);
-    transform: translateY(-2px);
-   
-  }
-
-  .button:active {
-    transform: translateY(0); /* Zurücksetzen der Verschiebung beim Klicken */
-  
-  }
-
-  .button:focus {
-    outline: 2px solid var(--accent-dark);
-    outline-offset: 2px;
-  }
-</style>

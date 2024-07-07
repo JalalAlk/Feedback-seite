@@ -75,88 +75,141 @@ import Layout from '../layouts/Layout.astro';
 </script>
 
 <style>
-  main {
-    margin: auto;
-    padding: 1rem;
-    width: 500px;
-    max-width: calc(100% - 2rem);
-    color: rgb(11 11 11);
-    font-size: 10px;
-    line-height: 2;
-    position: relative;  /* Wichtig für die Positionierung des "Zurück"-Buttons */
-  }
+    :root {
+      --background-main: #f4f6f9;
+      --text-dark: #333;
+      --button-background: #007BFF;
+      --button-hover: #0056b3;
+      --button-text: #fff;
+      --main-background: #fff;
+      --header-bg: #fff;
+      --footer-bg: #f4f6f9;
+      --message-background: #fff;
+      --message-border: #ddd;
+      --reply-background: #f4f4f4;
+      --reply-border: #ddd;
+      --delete-button-background: #dc3545;
+      --delete-button-hover: #c82333;
+      --back-button-background: #28a745;
+      --back-button-hover: #218838;
+    }
 
-  #messages-container {
-    border: 1px solid #ddd; /* Rahmen für den Container */
-    border-radius: 8px; /* Abgerundete Ecken */
-    padding: 0.5rem;
-    background: #f9f9f9; /* Hintergrundfarbe für Container */
-    max-height: 500px; /* Maximale Höhe für Container */
-    overflow-y: auto; /* Ermöglicht vertikales Scrollen */
-  }
+    body {
+      background: var(--background-main);
+      color: var(--text-dark);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-  .message {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 4px;
-    background: #333;
-  }
+    header {
+      background: var(--header-bg);
+      padding: 1rem;
+      color: var(--text-dark);
+      text-align: center;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    }
 
-  .replies {
-    margin-top: 1rem;
-    padding-left: 1rem;
-    border-left: 2px solid #ccc;
-  }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
 
-  .reply {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    background: #444;
-  }
+    nav a {
+      color: var(--button-background);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
 
-  .delete-button {
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-    background: #e9dad8;
-    color: #070606;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
+    main {
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 600px;
+      color: rgb(11 11 11);
+      font-size: 16px;
+      line-height: 1.6;
+      position: relative;
+      background: var(--main-background);
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgb(0 0 0 / 10%);
+      margin: 2rem auto;
+    }
 
-  .delete-button:hover {
-    background: #f1e5e3;
-  }
+    #messages-container {
+      border: none; /* Kein Rahmen für den Container */
+      background: var(--main-background); /* Weißer Hintergrund für Container */
+      padding: 1rem;
+      max-height: 500px;
+      overflow-y: auto;
+    }
 
-  /* Stil für den "Zurück" Button mit Pfeil */
-  #back-button {
-    position: absolute;  /* Positionierung innerhalb von "main" */
-    bottom: 1rem;        /* Abstand vom unteren Rand */
-    right: 1rem;         /* Abstand vom rechten Rand */
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(to right, rgb(231 238 231), rgb(13 6 6));
-    color: hsl(0deg 7% 3%);
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
+    .message {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: var(--message-background); /* Weißer Hintergrund für Nachrichten */
+      border: 1px solid var(--message-border); /* Rahmen für Nachrichten */
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%); /* Leichter Schatten */
+    }
 
-  #back-button:hover {
-    background: rgb(145 190 130);
-    transform: translateY(-2px);
-  }
+    .message:last-child {
+      margin-bottom: 0;
+    }
 
-  /* Stil für das Pfeil-SVG */
-  #back-button svg {
-    fill: currentcolor;  /* Erbt die Textfarbe des Buttons */
-  }
-  
-</style>
+    .replies {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--message-border);
+    }
+
+    .reply {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: var(--reply-background);
+      border: 1px solid var(--reply-border);
+    }
+
+    .delete-button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--delete-button-background); /* Rote Hintergrundfarbe für Löschen-Button */
+      color: var(--button-text);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .delete-button:hover {
+      background: var(--delete-button-hover); /* Dunkleres Rot für Hover-Effekt */
+    }
+
+    #back-button {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--back-button-background); /* Grüner Hintergrund für "Zurück"-Button */
+      color: var(--button-text);
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    #back-button:hover {
+      background: var(--back-button-hover); /* Dunkleres Grün für Hover-Effekt */
+    }
+
+    #back-button svg {
+      fill: currentcolor;
+    }
+  </style>
+</body>
+</html>

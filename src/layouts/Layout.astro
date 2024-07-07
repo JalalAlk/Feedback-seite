@@ -1,4 +1,5 @@
 ---
+// src/layouts/Layout.astro
 const { title, description } = Astro.props;
 ---
 
@@ -11,44 +12,69 @@ const { title, description } = Astro.props;
   <title>{title}</title>
   <style>
     body {
-      background: #ded7d7;
-      color: #ddd;
+      background: #f5f8f9; 
+      color: #000; 
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
     }
     
     header {
-      background: #f4ebeb;
+      display: flex;
+      justify-content: flex-start; 
+      align-items: center;
+      background: #fff; 
       padding: 1rem;
-      color: #060606;
-      text-align: center;
+      color: #000;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
     }
 
-    header h1 {
-      margin: 0;
+    header .logo {
       font-size: 24px;
+      font-weight: bold;
+      color: #198be8;
     }
 
-    header nav a {
-      display: inline-block;
-      color: #070606;
+    .options-bar {
+      background: #eaf9f8;
+      padding: 0.5rem 0; 
+      width: 100%; 
+      display: flex;
+      justify-content: center;
+      gap: 1rem; 
+      margin: 0; 
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+    }
+    
+    .options-bar a {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(to right, #f8d7da, #f8edeb);
+      color: #000;
+      border: none;
+      border-radius: 8px;
       text-decoration: none;
-      margin: 0 0.5rem;
-      background: linear-gradient(to right, rgb(228 189 160), rgb(233 241 239));
-      border-radius: 8px;  /* Abgerundete Ecken */
-      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);  /* Leichter Schatten */
-      transition: background 0.3s ease, transform 0.3s ease;  /* Übergangseffekte */
+      font-size: 14px;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    header nav a:hover {
-      background: linear-gradient(to right, rgb(190 130 140), rgb(200 208 205));  /* Dunklerer Hintergrund beim Hover */
-      text-decoration: none;  /* Keine Unterstreichung beim Hover */
+    .options-bar a:hover {
+      background: linear-gradient(to right, #d5abaf, #f5e4e6);
       transform: translateY(-2px);
     }
 
+    .options-bar a:active {
+      transform: translateY(0);
+    }
+
+    .options-bar a:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+    
     footer {
-      background: #cdc5c5;
-      color: #fff;
+      background: #fffafa;
+      color: #0a0909;
       padding: 0.1rem;
       text-align: center;
       position: fixed;
@@ -59,22 +85,24 @@ const { title, description } = Astro.props;
     main {
       padding: 2rem;
       max-width: 2000px;
-      background: #f7f7f7fd;
+      margin: auto;
       border-radius: 10px;
+      background: rgb(190 220 220 / 80%); 
     }
-    
   </style>
 </head>
 <body>
   <header>
-    <h1>Feedback-System</h1>
-    <nav>
-      <a href="/startseite">Startseite</a>
-    </nav>
+    <div class="logo">feedbacksystem</div>
   </header>
+  <div class="options-bar">
+    <slot name="options" />
+  </div>
   <main>
     <slot />
   </main>
   <footer>
+    © 2024 Your Company
+  </footer>
 </body>
 </html>

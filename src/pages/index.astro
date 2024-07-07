@@ -1,96 +1,131 @@
----
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
----
 
-<Layout title="Feedback  Login">
-    <h1>Login</h1>
-    <form action="/startseite">
-      <label for="username">Benutzername:</label>
-      <input type="text" id="username" name="username" required>
-      <label for="password">Passwort:</label>
-      <input type="password" id="password" name="password" required>
-      <button type="submit">Login</button>
-    </form>
-  </Layout>
-  <style>
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 1rem;
-    background: linear-gradient(135deg, #0072ff, #00c6ff); /* Modernes Farbverlauf-Hintergrund */
-  }
-  
-  h1 {
-    color: #595656;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 2rem auto;
-    justify-content: center;
-    background: #4a5f61;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgb(9 31 19);
-    max-width: 400px;
-    width: 100%;
-    position: relative;
-  top: 50%; /* Position in der Mitte der Seite */
+  <div class="container">
+    <main>
+      <h1>Login</h1>
+      <form action="/startseite">
+        <label for="username">Benutzername</label>
+        <input type="text" id="username" name="username" required />
+        
+        <label for="password">Passwort</label>
+        <input type="password" id="password" name="password" required />
+        
+        <button type="submit">Login</button>
+      </form>
+    </main>
+    <footer>
+      <p>© 2024 Feedback-System</p>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+/* Globale Stile für den gesamten Body */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #a2c2e0, #f0f4f8); /* Beruhigender Farbverlauf von Hellblau zu Weiß */
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    box-sizing: border-box;
-    outline: none;
-  }
-  
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    border-color: #50ca5e;
-    box-shadow: 0 0 0 3px rgb(0 114 255 / 20%);
-  }
-  
-  button {
-    width: 100%;
-    padding: 0.75rem;
-    background: #19330f;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  button:hover {
-    background: #00b339;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
-  }
+/* Container für alle Elemente */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 360px; /* Breite für ein einfaches Layout */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Stil für das Haupt-Element */
+main {
+  background: #fff; /* Weißer Hintergrund für den Hauptbereich */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%); /* Sanfter Schatten */
+  width: 100%;
+}
+
+/* Stil für die Hauptüberschrift */
+h1 {
+  color: #333; /* Dunkelgraue Schriftfarbe */
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem; /* Größere Schriftgröße */
+  font-weight: 600; /* Fett */
+  text-align: center;
+}
+
+/* Stil für das Formular */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Abstand zwischen den Elementen */
+}
+
+/* Stil für die Formularkennzeichnung */
+label {
+  font-size: 0.9rem; /* Kleinere Schriftgröße für Labels */
+  color: #555; /* Etwas hellere Schriftfarbe für Labels */
+}
+
+/* Stil für die Formulareingabefelder */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem; /* Etwas kleinere Schriftgröße */
+  color: #333;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Fokus-Effekte für Eingabefelder */
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #7abaff; /* Sanftes Blau bei Fokus */
+  box-shadow: 0 0 0 2px rgb(122 186 255 / 20%); /* Leichter Schatten bei Fokus */
+}
+
+/* Stil für den Button */
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #4a90e2; /* Sanftes Blau für den Button */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600; /* Etwas fett */
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover-Effekte für den Button */
+button:hover {
+  background: #357abd; /* Etwas dunkleres Blau bei Hover */
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%); /* Leichterer Schatten bei Hover */
+}
+
+/* Stil für den Footer */
+footer {
+  position: absolute;
+  bottom: 1rem;
+}
+
+/* Stil für den Footer-Text */
+footer p {
+  color: #555; /* Etwas hellere Schriftfarbe */
+  font-size: 0.9rem; /* Kleinere Schriftgröße */
+  text-align: center;
+}
 </style>
-  
