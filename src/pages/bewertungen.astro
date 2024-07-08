@@ -11,7 +11,7 @@ import Layout from '../layouts/Layout.astro';
       <select id="review-category" required>
         <option value="" disabled selected>Bitte wählen Sie eine Kategorie</option>
         <option value="Bibliothek">Bibliothek</option>
-        <option value="Messe">Messe</option>
+        <option value="Mensa">Mensa</option>
         <option value="Lehrsystem">Lehrsystem</option>
         <option value="Vorlesungen">Vorlesungen</option>
         <option value="Professoren">Professoren</option>
@@ -62,14 +62,14 @@ import Layout from '../layouts/Layout.astro';
           <option value="Benutzerservice">Benutzerservice</option>
           <option value="Medienangebot">Medienangebot</option>
         `;
-      } else if (selectedCategory === 'Messe') {
+      } else if (selectedCategory === 'Mensa') {
         reviewSubcategoryLabel.style.display = 'block';
         reviewSubcategorySelect.style.display = 'block';
         reviewSubcategorySelect.innerHTML = `
           <option value="" disabled selected>Bitte wählen Sie einen Aspekt</option>
-          <option value="Veranstaltung">Veranstaltung</option>
-          <option value="Stände">Stände</option>
-          <option value="Organisation">Organisation</option>
+          <option value="Essen">Essen</option>
+          <option value="Service">Service</option>
+           <option value="Sauberkeit">Sauberkeit</option>
         `;
       } else if (selectedCategory === 'Lehrsystem') {
         reviewSubcategoryLabel.style.display = 'block';
